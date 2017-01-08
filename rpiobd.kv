@@ -1,0 +1,123 @@
+#:kivy 1.8
+#:import KivyLexer kivy.extras.highlight.KivyLexer
+#:import Factory kivy.factory.Factory
+#:import C kivy.utils.get_color_from_hex
+
+#<SplashPanel>
+#    orientation: 'vertical'
+#    spacing: 1
+#
+#    AppActionBar:
+#        size_hint: (1., 0.1)
+#
+#    Image:
+#        source: 'data/rpiobd.png'
+#
+#    Label:
+#        halign: 'left'
+#        valign: 'top'
+#        text: root.notifications
+#
+#<ActionDropdown>:
+#    on_size: self.width = '220dp'
+#
+<AppActionBar>:
+    pos_hint: {'top':1}
+    ActionView:
+        use_separator: True
+        ActionMenu:
+            title: 'RpiOBD'
+            with_previous: False
+            app_icon: 'atlas://data/images/defaulttheme/splitter_grip'
+            on_press: self.menu()
+        ActionOverflow:
+        ActionQuit:
+            text: 'Exit'
+            icon: 'atlas://data/images/defaulttheme/close'
+            on_press: self.menu()
+
+#<MainPanel>:
+#    orientation: 'vertical'
+#    spacing: 1
+#
+#    AppActionBar:
+#        size_hint: (1., 0.1)
+#
+#    AppButton:
+#        id: bottone
+#        nome_bottone: bottone
+#        text: 'AppExec'
+#        on_press: self.app_pushed()
+#        on_release: self.app_pushed()
+#
+
+<ScrollView>:
+    canvas.before:
+        Color:
+            rgb: 0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<NotificationLabel@Label>:
+    color: [0,1,0,1]
+    text_size: (self.width, None)
+    halign: 'left'
+    valign: 'top'
+    padding: (0, 0)  # fixed in Kivy 1.8.1
+    size_hint: (1, None)
+    height: self.texture_size[1]
+    markup: True
+
+
+ScreenManager:
+    Screen:
+        name: 'splash'
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 1
+
+            Image:
+                source: 'data/rpiobd.png'
+
+            ScrollView:
+                NotificationLabel:
+                    id: notifications
+                    text: ''
+
+    Screen:
+        name: 'mainscreen'
+
+        AppActionBar:
+            size_hint: (1., 0.1)
+
+        GridLayout:
+            rows: 2
+            spacing: 1
+
+            Label:
+                id: lat_label
+                text: 'Latitude'
+
+            Label:
+                id: lon_label
+                text: 'Longitude'
+
+            Label:
+                id: gps_speed_label
+                text: 'GPS Speed (m/s)'
+
+            Label:
+                id: obd1_label
+                text: 'RPM'
+
+            Label:
+                id: obd2_label
+                text: 'Throttle %'
+
+            Label:
+                id: obd3_label
+                text: 'Speed (MPH)'
+
+
